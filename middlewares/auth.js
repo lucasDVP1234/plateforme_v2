@@ -10,7 +10,7 @@ function ensureAuthenticated(req, res, next) {
 function ensureProfileComplete(req, res, next) {
   const user = req.user;
   if (user && user.role === 'creator') {
-    return res.redirect('/kreators/me/edit');
+    return res.redirect('/creators/me/edit');
   }
   if (user && user.name && user.job) {
     return next();

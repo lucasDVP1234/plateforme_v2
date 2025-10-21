@@ -15,10 +15,6 @@ const creatorSchema = new mongoose.Schema({
     langue : [String],
     atout :[String],
     videos :[String],
-    isActive: {
-        type: Boolean,
-        default: true,
-    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

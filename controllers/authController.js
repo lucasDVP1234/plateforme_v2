@@ -7,7 +7,7 @@ const User = require('../models/User');
 exports.getLogin = (req, res) => {
   if (req.isAuthenticated()) {
     if (req.user.role === 'creator') {
-      return res.redirect('/kreators/me/edit');
+      return res.redirect('/creators/me/edit');
     }
     return res.redirect('/account');
   }
@@ -34,7 +34,7 @@ exports.postLogin = (req, res, next) => {
         return next(err);
       }
       req.flash('success', 'Connexion réussie !');
-      const redirectUrl = req.user && req.user.role === 'creator' ? '/kreators/me/edit' : '/account';
+      const redirectUrl = req.user && req.user.role === 'creator' ? '/creators/me/edit' : '/account';
       return res.redirect(redirectUrl);
     });
   })(req, res, next);

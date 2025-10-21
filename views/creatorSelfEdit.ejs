@@ -6,7 +6,7 @@
 <body class="bg-gray-50 min-h-screen">
   <%- include('header-login') %>
   <div class="flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-    <div class="w-full max-w-4xl bg-white shadow-xl rounded-2xl p-8 space-y-6">
+    <div class="w-full max-w-3xl bg-white shadow-xl rounded-2xl p-8 space-y-6">
       <h1 class="text-3xl font-semibold text-blue-950 text-center">Gérer mon profil créateur</h1>
 
       <% if (success_messages && success_messages.length) { %>
@@ -25,10 +25,7 @@
         </div>
       <% } %>
 
-      <% const toArray = (value) => Array.isArray(value) ? value : (value ? value.split(',') : []); %>
-
-      <% const currentCoverImage = creator.coverImage || (Array.isArray(creator.portfolioImages) && creator.portfolioImages.length ? creator.portfolioImages[0] : ''); %>
-      <form action="/kreators/me/edit" method="POST" enctype="multipart/form-data" class="space-y-8">
+      <form action="/creators/me/edit" method="POST" class="space-y-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="space-y-4">
             <h2 class="text-xl font-semibold text-blue-900">Informations générales</h2>
@@ -38,126 +35,48 @@
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700">Âge</label>
-              <input type="number" name="age" value="<%= creator.age || '' %>" min="16" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+              <input type="number" name="age" value="<%= creator.age || '' %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700">Pays</label>
-              <select name="country" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
-                <option value="" disabled <%= !creator.country ? 'selected' : '' %>>Sélectionnez un pays</option>
-                <% options.countryOptions.forEach(function(option) { %>
-                  <option value="<%= option %>" <%= creator.country === option ? 'selected' : '' %>><%= option %></option>
-                <% }); %>
-              </select>
+              <input type="text" name="country" value="<%= creator.country || '' %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Langues (séparées par des virgules)</label>
+              <input type="text" name="langue" value="<%= (creator.langue || []).join(', ') %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700">Genre</label>
-              <select name="genre" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                <option value="" <%= !creator.genre ? 'selected' : '' %>>Préférer ne pas répondre</option>
-                <% options.genreOptions.forEach(function(option) { %>
-                  <option value="<%= option %>" <%= creator.genre === option ? 'selected' : '' %>><%= option %></option>
-                <% }); %>
-              </select>
+              <input type="text" name="genre" value="<%= creator.genre || '' %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Atouts (séparés par des virgules)</label>
+              <input type="text" name="atout" value="<%= (creator.atout || []).join(', ') %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
             </div>
           </div>
 
           <div class="space-y-4">
-            <h2 class="text-xl font-semibold text-blue-900">Langues & Atouts</h2>
+            <h2 class="text-xl font-semibold text-blue-900">Détails créatifs</h2>
             <div>
-              <label class="block text-sm font-medium text-gray-700">Langues parlées</label>
-              <select name="langue" multiple required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                <% const selectedLangues = toArray(creator.langue); %>
-                <% options.languageOptions.forEach(function(option) { %>
-                  <option value="<%= option %>" <%= selectedLangues.includes(option) ? 'selected' : '' %>><%= option %></option>
-                <% }); %>
-              </select>
+              <label class="block text-sm font-medium text-gray-700">Caméra / Équipement (séparés par des virgules)</label>
+              <input type="text" name="category" value="<%= (creator.category || []).join(', ') %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700">Atouts</label>
-              <select name="atout" multiple required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                <% const selectedAtouts = toArray(creator.atout); %>
-                <% options.strengthOptions.forEach(function(option) { %>
-                  <option value="<%= option %>" <%= selectedAtouts.includes(option) ? 'selected' : '' %>><%= option %></option>
-                <% }); %>
-              </select>
-            </div>
-            <div class="flex items-center space-x-3">
-              <input type="checkbox" name="isActive" id="isActive" class="h-4 w-4 text-blue-600 border-gray-300 rounded" <%= creator.isActive !== false ? 'checked' : '' %>>
-              <label for="isActive" class="text-sm font-medium text-gray-700">Afficher ma carte sur la plateforme</label>
-            </div>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="space-y-4">
-            <h2 class="text-xl font-semibold text-blue-900">Compétences vidéos</h2>
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Équipements utilisés</label>
-              <select name="category" multiple required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                <% const selectedEquipments = toArray(creator.category); %>
-                <% options.equipmentOptions.forEach(function(option) { %>
-                  <option value="<%= option %>" <%= selectedEquipments.includes(option) ? 'selected' : '' %>><%= option %></option>
-                <% }); %>
-              </select>
+              <label class="block text-sm font-medium text-gray-700">Types de vidéos (séparés par des virgules)</label>
+              <input type="text" name="videoTypes" value="<%= (creator.videoTypes || []).join(', ') %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700">Types de vidéos</label>
-              <select name="videoTypes" multiple required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                <% const selectedVideoTypes = toArray(creator.videoTypes); %>
-                <% options.videoTypeOptions.forEach(function(option) { %>
-                  <option value="<%= option %>" <%= selectedVideoTypes.includes(option) ? 'selected' : '' %>><%= option %></option>
-                <% }); %>
-              </select>
-            </div>
-          </div>
-
-          <div class="space-y-4">
-            <h2 class="text-xl font-semibold text-blue-900">Photos</h2>
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Photo de profil</label>
-              <% if (creator.profileImage) { %>
-                <input type="hidden" name="existingProfileImage" value="<%= creator.profileImage %>">
-                <img src="<%= creator.profileImage %>" alt="Photo de profil" class="mt-2 w-32 h-32 rounded-full object-cover" id="current-profile-image">
-              <% } %>
-              <input type="file" name="profileImageFile" accept="image/*" class="mt-2 block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-              <div class="mt-3">
-                <img id="profile-image-preview" src="" alt="Prévisualisation photo de profil" class="rounded-full w-32 h-32 object-cover hidden">
-              </div>
+              <label class="block text-sm font-medium text-gray-700">URL de l'image de profil</label>
+              <input type="text" name="profileImage" value="<%= creator.profileImage || '' %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700">Photo de couverture</label>
-              <% if (currentCoverImage) { %>
-                <input type="hidden" name="existingCoverImage" value="<%= currentCoverImage %>">
-                <img src="<%= currentCoverImage %>" alt="Photo de couverture" class="mt-2 w-full h-40 rounded-lg object-cover" id="current-cover-image">
-              <% } %>
-              <input type="file" name="coverImageFile" accept="image/*" class="mt-2 block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-              <div class="mt-3">
-                <img id="cover-image-preview" src="" alt="Prévisualisation photo de couverture" class="rounded-lg w-full h-40 object-cover hidden">
-              </div>
+              <label class="block text-sm font-medium text-gray-700">Images de portfolio (séparées par des virgules)</label>
+              <input type="text" name="portfolioImages" value="<%= (creator.portfolioImages || []).join(', ') %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
             </div>
-          </div>
-        </div>
-
-        <div class="space-y-4">
-          <h2 class="text-xl font-semibold text-blue-900">Vidéos</h2>
-          <p class="text-sm text-gray-500">Vous pouvez conserver vos vidéos existantes ou en téléverser de nouvelles (max <%= options.maxVideos %>).</p>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <% const existingVideos = toArray(creator.videos); %>
-            <% existingVideos.forEach(function(videoUrl, index) { %>
-              <div class="bg-gray-100 rounded-lg p-4 space-y-2">
-                <video src="<%= videoUrl %>" controls class="w-full rounded"></video>
-                <input type="hidden" name="existingVideos[]" value="<%= videoUrl %>">
-                <label class="flex items-center space-x-2 text-sm text-gray-700">
-                  <input type="checkbox" name="removedVideos[]" value="<%= videoUrl %>" class="text-blue-600 border-gray-300 rounded">
-                  <span>Retirer cette vidéo</span>
-                </label>
-              </div>
-            <% }); %>
-            <% if (!existingVideos.length) { %>
-              <p class="text-sm text-gray-500">Ajoutez vos premières vidéos ci-dessous.</p>
-            <% } %>
-          </div>
-          <div>
-            <input type="file" name="videoFiles" accept="video/mp4,video/webm,video/quicktime" multiple class="mt-1 block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Liens vidéos (séparés par des virgules)</label>
+              <input type="text" name="videos" value="<%= (creator.videos || []).join(', ') %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            </div>
           </div>
         </div>
 
@@ -169,31 +88,5 @@
       </form>
     </div>
   </div>
-
-  <script>
-    const profileInput = document.querySelector('input[name="profileImageFile"]');
-    const coverInput = document.querySelector('input[name="coverImageFile"]');
-    const profilePreview = document.getElementById('profile-image-preview');
-    const coverPreview = document.getElementById('cover-image-preview');
-
-    function updatePreview(input, previewElement) {
-      if (!input || !previewElement) return;
-      const file = input.files && input.files[0];
-      if (!file) {
-        previewElement.classList.add('hidden');
-        previewElement.src = '';
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        previewElement.src = event.target.result;
-        previewElement.classList.remove('hidden');
-      };
-      reader.readAsDataURL(file);
-    }
-
-    profileInput?.addEventListener('change', () => updatePreview(profileInput, profilePreview));
-    coverInput?.addEventListener('change', () => updatePreview(coverInput, coverPreview));
-  </script>
 </body>
 </html>
