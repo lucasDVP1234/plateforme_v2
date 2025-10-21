@@ -1,8 +1,7 @@
 // routes/creators.js
 const express = require('express');
 const creatorController = require('../controllers/creatorController');
-const { ensureAuthenticated } = require('../middlewares/auth');
-const { isAdmin } = require('../middlewares/auth');
+const { ensureCreator, isAdmin } = require('../middlewares/auth');
 const router = express.Router();
 
 // Creators Page
@@ -13,6 +12,14 @@ router.get('/add', isAdmin, creatorController.getAddCreator);
 
 // Route to handle form submission and add the new creator to the database (POST request)
 router.post('/add', isAdmin, creatorController.postAddCreator);
+
+router.get('/creators/register', creatorController.getCreatorRegistration);
+
+router.post('/creators/register', creatorController.postCreatorRegistration);
+
+router.get('/creators/me/edit', ensureCreator, creatorController.getMyCreatorProfile);
+
+router.post('/creators/me/edit', ensureCreator, creatorController.postMyCreatorProfile);
 
 router.get('/creators/edit', creatorController.getEditCreator);
 

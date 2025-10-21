@@ -1,6 +1,28 @@
 // controllers/creatorController.js
 
+const bcrypt = require('bcrypt');
 const Creator = require('../models/Creator'); // Ensure this import is present
+const User = require('../models/User');
+
+const parseList = (value) => {
+    if (!value) {
+        return [];
+    }
+    if (Array.isArray(value)) {
+        return value;
+    }
+    return value
+        .split(',')
+        .map((item) => item.trim())
+        .filter(Boolean);
+};
+
+const toList = (value) => {
+    if (!value) {
+        return [];
+    }
+    return Array.isArray(value) ? value : [value];
+};
 
 exports.getCreators = async (req, res) => {
     try {
@@ -163,43 +185,43 @@ exports.getAddCreator = async (req, res) => {
 
   
 exports.postAddCreator = async (req, res) => {
-try {
-    const {
-    name,
-    age,
-    country,
-    langue,
-    profileImage,
-    portfolioImages,
-    videoTypes,
-    category,
-    genre,
-    atout,
-    videos,
-    } = req.body;
+    try {
+        const {
+            name,
+            age,
+            country,
+            langue,
+            profileImage,
+            portfolioImages,
+            videoTypes,
+            category,
+            genre,
+            atout,
+            videos,
+        } = req.body;
 
-    // Create a new Creator instance
-    const newCreator = new Creator({
-    name,
-    age,
-    country,
-    langue,
-    profileImage,
-    genre,
-    portfolioImages: portfolioImages.split(','), // Assuming comma-separated URLs
-    videoTypes: videoTypes.split(','), // Assuming comma-separated types
-    category: category.split(','), // Assuming comma-separated types
-    atout: atout.split(','), // Assuming comma-separated types
-    videos: videos.split(','), // Assuming comma-separated types
-    });
+        const newCreator = new Creator({
+            name,
+            age: age ? Number(age) : undefined,
+            country,
+            langue: parseList(langue),
+            profileImage,
+            genre,
+            portfolioImages: parseList(portfolioImages),
+            videoTypes: parseList(videoTypes),
+            category: parseList(category),
+            atout: parseList(atout),
+            videos: parseList(videos),
+        });
 
-    await newCreator.save();
+        await newCreator.save();
 
-    res.redirect('/creators'); // Redirect to creators list or wherever appropriate
-} catch (err) {
-    console.error('Error adding creator:', err.message);
-    res.status(500).send('Error adding creator.');
-}
+        req.flash('success', 'Créateur ajouté avec succès.');
+        res.redirect('/creators');
+    } catch (err) {
+        console.error('Error adding creator:', err.message);
+        res.status(500).send('Error adding creator.');
+    }
 };
 
 exports.getEditCreator = async (req, res) => {
@@ -241,23 +263,201 @@ exports.postEditCreator = async (req, res) => {
 
         const updatedData = {
             name,
-            age,
+            age: age ? Number(age) : undefined,
             country,
-            langue,
+            langue: parseList(langue),
             profileImage,
             genre,
-            portfolioImages: portfolioImages.split(',').filter(Boolean),
-            videoTypes: videoTypes.split(',').filter(Boolean),
-            category: category.split(',').filter(Boolean),
-            atout: atout.split(',').filter(Boolean),
-            videos: videos.split(',').filter(Boolean),
+            portfolioImages: parseList(portfolioImages),
+            videoTypes: parseList(videoTypes),
+            category: parseList(category),
+            atout: parseList(atout),
+            videos: parseList(videos),
         };
 
-        await Creator.findByIdAndUpdate(creatorId, updatedData);
+        await Creator.findByIdAndUpdate(creatorId, updatedData, { omitUndefined: true });
 
         res.redirect('/creators'); // Redirect to creators list or wherever appropriate
     } catch (error) {
         console.error('Error updating creator:', error.message);
         res.status(500).send('Error updating creator.');
+    }
+};
+
+exports.getCreatorRegistration = (req, res) => {
+    if (req.isAuthenticated()) {
+        if (req.user.role === 'creator') {
+            return res.redirect('/creators/me/edit');
+        }
+        return res.redirect('/account');
+    }
+
+    res.render('creatorRegister', {
+        errors: [],
+        formData: {},
+    });
+};
+
+exports.postCreatorRegistration = async (req, res) => {
+    const {
+        email,
+        password,
+        confirmPassword,
+        name,
+        age,
+        country,
+        langue,
+        profileImage,
+        portfolioImages,
+        videoTypes,
+        category,
+        genre,
+        atout,
+        videos,
+    } = req.body;
+
+    const errors = [];
+
+    if (!email) errors.push('L\'e-mail est requis.');
+    if (!password) errors.push('Le mot de passe est requis.');
+    if (password !== confirmPassword) errors.push('Les mots de passe ne correspondent pas.');
+    if (!name) errors.push('Le nom est requis.');
+    if (!age) errors.push('L\'âge est requis.');
+    if (!country) errors.push('Le pays est requis.');
+    if (!profileImage) errors.push('L\'image de profil est requise.');
+    if (!category) errors.push('La caméra est requise.');
+
+    const formData = { ...req.body };
+    delete formData.password;
+    delete formData.confirmPassword;
+
+    try {
+        if (errors.length > 0) {
+            return res.render('creatorRegister', { errors, formData });
+        }
+
+        const existingUser = await User.findOne({ email: email.toLowerCase().trim() });
+        if (existingUser) {
+            return res.render('creatorRegister', {
+                errors: ['Un compte existe déjà avec cet e-mail.'],
+                formData,
+            });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const user = await User.create({
+            email: email.toLowerCase().trim(),
+            name,
+            password: hashedPassword,
+            role: 'creator',
+        });
+
+        try {
+            await Creator.create({
+                name,
+                age: age ? Number(age) : undefined,
+                country,
+                langue: parseList(langue),
+                profileImage,
+                genre,
+                portfolioImages: parseList(portfolioImages),
+                videoTypes: parseList(videoTypes),
+                category: parseList(category),
+                atout: parseList(atout),
+                videos: parseList(videos),
+                user: user._id,
+            });
+        } catch (error) {
+            await User.findByIdAndDelete(user._id);
+            throw error;
+        }
+
+        await new Promise((resolve, reject) => {
+            req.logIn(user, (err) => {
+                if (err) {
+                    return reject(err);
+                }
+                return resolve();
+            });
+        });
+
+        req.flash('success', 'Votre profil créateur a été créé avec succès !');
+        return res.redirect('/creators/me/edit');
+    } catch (error) {
+        console.error('Error registering creator:', error.message);
+        req.flash('error', 'Une erreur est survenue lors de votre inscription. Veuillez réessayer.');
+        return res.redirect('/creators/register');
+    }
+};
+
+exports.getMyCreatorProfile = async (req, res) => {
+    try {
+        const creator = await Creator.findOne({ user: req.user._id });
+
+        if (!creator) {
+            return res.redirect('/creators/register');
+        }
+
+        const creatorData = creator.toObject();
+        creatorData.langue = toList(creatorData.langue);
+        creatorData.atout = toList(creatorData.atout);
+        creatorData.category = toList(creatorData.category);
+        creatorData.videoTypes = toList(creatorData.videoTypes);
+        creatorData.portfolioImages = toList(creatorData.portfolioImages);
+        creatorData.videos = toList(creatorData.videos);
+
+        res.render('creatorSelfEdit', { creator: creatorData });
+    } catch (error) {
+        console.error('Error fetching creator profile:', error.message);
+        res.status(500).send('Server Error');
+    }
+};
+
+exports.postMyCreatorProfile = async (req, res) => {
+    try {
+        const {
+            name,
+            age,
+            country,
+            langue,
+            profileImage,
+            portfolioImages,
+            videoTypes,
+            category,
+            genre,
+            atout,
+            videos,
+        } = req.body;
+
+        let creator = await Creator.findOne({ user: req.user._id });
+
+        if (!creator) {
+            creator = new Creator({ user: req.user._id });
+        }
+
+        creator.name = name;
+        creator.age = age ? Number(age) : undefined;
+        creator.country = country;
+        creator.langue = parseList(langue);
+        creator.profileImage = profileImage;
+        creator.genre = genre;
+        creator.portfolioImages = parseList(portfolioImages);
+        creator.videoTypes = parseList(videoTypes);
+        creator.category = parseList(category);
+        creator.atout = parseList(atout);
+        creator.videos = parseList(videos);
+
+        await creator.save();
+
+        await User.findByIdAndUpdate(req.user._id, { name });
+        req.user.name = name;
+
+        req.flash('success', 'Votre profil créateur a été mis à jour.');
+        res.redirect('/creators/me/edit');
+    } catch (error) {
+        console.error('Error updating creator profile:', error.message);
+        req.flash('error', 'Une erreur est survenue lors de la mise à jour de votre profil.');
+        res.redirect('/creators/me/edit');
     }
 };

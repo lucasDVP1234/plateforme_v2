@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <title>Mon profil créateur</title>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <%- include('header-login') %>
+  <div class="flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="w-full max-w-3xl bg-white shadow-xl rounded-2xl p-8 space-y-6">
+      <h1 class="text-3xl font-semibold text-blue-950 text-center">Gérer mon profil créateur</h1>
+
+      <% if (success_messages && success_messages.length) { %>
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+          <% success_messages.forEach(function(message) { %>
+            <p><%= message %></p>
+          <% }); %>
+        </div>
+      <% } %>
+
+      <% if (error_messages && error_messages.length) { %>
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <% error_messages.forEach(function(message) { %>
+            <p><%= message %></p>
+          <% }); %>
+        </div>
+      <% } %>
+
+      <form action="/creators/me/edit" method="POST" class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-4">
+            <h2 class="text-xl font-semibold text-blue-900">Informations générales</h2>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Nom</label>
+              <input type="text" name="name" value="<%= creator.name || '' %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Âge</label>
+              <input type="number" name="age" value="<%= creator.age || '' %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Pays</label>
+              <input type="text" name="country" value="<%= creator.country || '' %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Langues (séparées par des virgules)</label>
+              <input type="text" name="langue" value="<%= (creator.langue || []).join(', ') %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Genre</label>
+              <input type="text" name="genre" value="<%= creator.genre || '' %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Atouts (séparés par des virgules)</label>
+              <input type="text" name="atout" value="<%= (creator.atout || []).join(', ') %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <h2 class="text-xl font-semibold text-blue-900">Détails créatifs</h2>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Caméra / Équipement (séparés par des virgules)</label>
+              <input type="text" name="category" value="<%= (creator.category || []).join(', ') %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Types de vidéos (séparés par des virgules)</label>
+              <input type="text" name="videoTypes" value="<%= (creator.videoTypes || []).join(', ') %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">URL de l'image de profil</label>
+              <input type="text" name="profileImage" value="<%= creator.profileImage || '' %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Images de portfolio (séparées par des virgules)</label>
+              <input type="text" name="portfolioImages" value="<%= (creator.portfolioImages || []).join(', ') %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Liens vidéos (séparés par des virgules)</label>
+              <input type="text" name="videos" value="<%= (creator.videos || []).join(', ') %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-white bg-blue-950 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            Mettre à jour mon profil
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

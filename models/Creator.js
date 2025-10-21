@@ -14,6 +14,10 @@ const creatorSchema = new mongoose.Schema({
     langue : [String],
     atout :[String],
     videos :[String],
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    },
 });
 
 module.exports = mongoose.model('Creator', creatorSchema);
