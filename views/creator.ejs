@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title><%= creator.name %> - Profil</title>
+    <!-- Include Montserrat Font and Tailwind CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/tailwind.css">
+</head>
+<body class="bg-gray-50 font-montserrat">
+    <%- include('header-login') %>
+    <!-- Main Content Container -->
+    <div class="max-w-xl mx-auto px-10 mt-2 py-12 relative">
+        <a href="/creators" class="absolute top-0 left-2 sm:left-0 bg-blue-950 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-800 transition-colors duration-200 flex items-center">
+            <!-- Optional: Add an SVG Icon for the Back Arrow -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            
+        </a>
+        <!-- Profile Card with Cover Image -->
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden">
+            <!-- Cover Image Section -->
+            <div class="relative">
+                <% if (creator.portfolioImages && creator.portfolioImages.length > 0) { %>
+                    <img src="<%= creator.portfolioImages[0] %>" alt="Cover Image" class="w-full h-48 object-cover">
+                <% } else { %>
+                    <!-- Default Cover Image if none provided -->
+                    <img src="/images/default-cover.jpg" alt="Default Cover Image" class="w-full h-48 object-cover">
+                <% } %>
+                <!-- Profile Image Positioned in the Center -->
+                <div class="absolute inset-x-0 bottom-0 transform translate-y-1/2 flex justify-center">
+                    <div class="w-32 h-32">
+                        <img src="<%= creator.profileImage %>" alt="<%= creator.name %>" class="w-full h-full rounded-full object-cover border-4 border-white shadow-md"
+                             loading="lazy"
+                             onerror="this.onerror=null; this.src='/images/default-profile.png'">
+                    </div>
+                </div>
+            </div>
+            <!-- Spacer to accommodate the overlapping profile image -->
+            <div class="mt-16 px-6 pb-6">
+                <!-- Creator Name -->
+                <h1 class="text-3xl font-bold text-gray-800 mb-2 text-center"><%= creator.name %></h1>
+                <!-- Age and Country -->
+                <div class="flex items-center justify-center space-x-4 mt-2">
+                    <p class="text-gray-600 text-lg flex items-center">
+                        <img src="/images/11.png" alt="Âge" class="w-5 h-5 mr-2">
+                        <%= creator.age %> ans
+                    </p>
+                    <p class="text-gray-600 text-lg flex items-center">
+                        <img src="/images/monde.png" alt="Pays" class="w-5 h-5 mr-2">
+                        <%= creator.country %>
+                    </p>
+                </div>
+                <div class="flex items-center justify-center space-x-4 mt-2">
+                    <% creator.category.forEach(function(force) { %>
+                    <p class="text-gray-600 text-l sm:text-lg flex items-center">
+                        <img src="/images/demo.png" alt="Âge" class="w-5 h-5 mr-2">
+                        <%= force %>
+                    </p>
+                    <% }); %>
+                </div>
+               
+                <!-- Description -->
+                <p class="mt-2 text-gray-700 text-center leading-relaxed"><%= creator.description %></p>
+                <div class="flex items-center justify-center space-x-4 mt-2">
+                    <% creator.atout.forEach(function(force) { %>
+                    <p class="text-gray-600 text-l sm:text-lg flex items-center">
+                        <img src="/images/plus.png" alt="Âge" class="w-5 h-5 mr-2">
+                        <%= force %>
+                    </p>
+                    <% }); %>
+                </div>
+                
+                <!-- Video Types -->
+                <div class="flex flex-wrap justify-center gap-2 mt-6">
+                    <% creator.videoTypes.forEach(function(type) { %>
+                        <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full"><%= type %></span>
+                    <% }); %>
+                </div>
+                <!-- Ajouter à ma campagne Button -->
+                <div class="flex justify-center mt-6">
+                    <form action="/add-to-campaign" method="POST">
+                      <input type="hidden" name="creatorId" value="<%= creator._id %>">
+                      <button type="submit" class="shadow bg-blue-950 hover:bg-blue-800 text-white font-semibold px-6 py-2 rounded-full transition duration-300">
+                        Ajouter à ma campagne
+                      </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="rounded-2xl space-y-6 mt-6">
+            <h2 class="relative text-center text-l text-blue-950 font-semibold">
+                <span class="relative inline-block px-2 py-1">
+                  
+                  <!-- Background span with white color, rounded corners, and rotation -->
+                  <span class="absolute inset-0 bg-blue-500 rounded-lg transform -rotate-2 z-0"></span>
+                  
+                  <!-- Text span positioned above the background -->
+                  <span class="relative font-semibold text-l text-white z-10">
+                  100% des vidéos présentées</span>
+                  
+              </span>
+              
+                ont été produites par Scalevision
+              
+              </h2>
+        </div>
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden mt-6">
+            <!-- Section Title -->
+            <div class="px-6 pt-6">
+                <h2 class="text-2xl font-semibold text-blue-950 mb-4">Portfolio Vidéos</h2>
+            </div>
+            <!-- Video Grid -->
+            <div class="px-6 pb-6">
+                <div id="video-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4">
+                    <% 
+                        // Determine how many videos to show initially
+                        const initialVideos = 6;
+                        const totalVideos = creator.videos.length;
+                        const videosToShow = creator.videos.slice(0, initialVideos); // Assuming first image is cover
+                    %>
+                    <% videosToShow.forEach(function(videoUrl, index) { %>
+                        <div class="bg-gray-100 rounded-lg overflow-hidden shadow">
+                            <div class="relative">
+                                <video id="video-<%= index %>" class="w-full h-auto" controls muted autoplay>
+                                    <source src="<%= videoUrl %>" type="video/mp4">
+                                    Votre navigateur ne supporte pas la lecture de vidéos.
+                                </video>
+                                <button 
+                                    class="inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity duration-300"
+                                    onclick="startVideo('video-<%= index %>')">
+                                    
+                                </button>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+                <!-- Show More Button -->
+                <% if (totalVideos > initialVideos) { %>
+                    <div class="flex justify-center mt-6">
+                        <button id="show-more-button" class="shadow bg-blue-950 hover:bg-blue-800 text-white font-semibold px-6 py-2 rounded-full transition duration-300">
+                            Afficher Plus
+                        </button>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional Footer -->
+    <!-- Include any necessary scripts -->
+    <script>
+        const creator = <%- JSON.stringify(creator) %>;
+        const initialVideos = 6; 
+        // Function to start/play the video
+        function startVideo(videoId) {
+            const video = document.getElementById(videoId);
+            if (video.paused) {
+                video.play();
+            } else {
+                video.pause();
+            }
+        }
+
+        // Show More Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const showMoreButton = document.getElementById('show-more-button');
+            if (showMoreButton) {
+                showMoreButton.addEventListener('click', function() {
+                    // Fetch all video URLs except the ones already displayed
+                    const allVideos = creator.videos.slice(0, initialVideos+1);
+                    const videoGrid = document.getElementById('video-grid');
+                    const currentCount = videoGrid.children.length;
+                    const nextVideos = allVideos.slice(currentCount, currentCount + initialVideos);
+
+                    nextVideos.forEach(function(videoUrl, index) {
+                        const videoIndex = currentCount + index;
+                        const videoContainer = document.createElement('div');
+                        videoContainer.className = 'bg-gray-100 rounded-lg overflow-hidden shadow';
+
+                        const videoElement = document.createElement('video');
+                        videoElement.id = `video-${videoIndex}`;
+                        videoElement.className = 'w-full h-auto';
+                        videoElement.controls = true;
+                        videoElement.preload = 'none';
+
+                        const sourceElement = document.createElement('source');
+                        sourceElement.src = videoUrl;
+                        sourceElement.type = 'video/mp4';
+
+                        videoElement.appendChild(sourceElement);
+                        videoElement.innerHTML += 'Votre navigateur ne supporte pas la lecture de vidéos.';
+
+                        const button = document.createElement('button');
+                        button.className = 'absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity duration-300';
+                        button.textContent = 'Start';
+                        button.onclick = function() { startVideo(`video-${videoIndex}`); };
+
+                        const relativeDiv = document.createElement('div');
+                        relativeDiv.className = 'relative';
+                        relativeDiv.appendChild(videoElement);
+                        relativeDiv.appendChild(button);
+
+                        videoContainer.appendChild(relativeDiv);
+                        videoGrid.appendChild(videoContainer);
+                    });
+
+                    // Hide the Show More button if no more videos to show
+                    if (currentCount + nextVideos.length >= allVideos.length) {
+                        showMoreButton.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

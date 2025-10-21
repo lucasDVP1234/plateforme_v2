@@ -1,0 +1,142 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom font family */
+@layer base {
+  .font-montserrat {
+    font-family: 'Montserrat', sans-serif;
+  }
+  .font-caveat {
+    font-family: 'Caveat', 'cursive';
+  }
+}
+
+/* Custom animations and utilities */
+@layer utilities {
+  /* Scrolling Animations */
+  .animate-scroll {
+    animation: scroll 20s linear infinite;
+  }
+  .animate-scroll-creators {
+    animation: scroll-creators 30s linear infinite;
+  }
+
+  /* Fade-Down Transition Classes */
+  .fade-down-enter {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  .fade-down-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+
+  .fade-down-exit {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .fade-down-exit-active {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+
+  /* Gradient Background */
+  .bg-gradient {
+    background: linear-gradient(135deg, #cbd7fa, #f9fafc);
+  }
+
+  /* Shadow Effect */
+  .shadow-card {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Rounded Images */
+  .rounded-img {
+    border-radius: 20px;
+  }
+
+  /* Text Animation */
+  .animate-text {
+    background-size: 200% 200%;
+    animation: textAnimation 5s ease-in-out infinite;
+  }
+  .text-doubled {
+    position: relative;
+     /* Main text color */
+    
+    text-shadow: -4px -4px 0px rgb(255, 255, 255); /* Slight offset for the 'doubled' effect */
+}
+  .text-doubled-portable {
+    position: relative;
+     /* Main text color */
+    
+    text-shadow: -3px -3px 0px rgb(255, 255, 255); /* Slight offset for the 'doubled' effect */
+}
+  
+  
+}
+
+/* Keyframes Definitions */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scroll-creators {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes textAnimation {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+
+@keyframes fadeOutDown {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Apply animations */
+.fade-out {
+  animation: fadeOutDown 0.5s forwards;
+}
+
+.fade-in {
+  animation: fadeInUp 0.5s forwards;
+}

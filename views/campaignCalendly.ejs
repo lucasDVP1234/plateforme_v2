@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Étape 2</title>
+    <!-- Include Montserrat Font and Tailwind CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/tailwind.css">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 max-w-screen">
+    <!-- Header -->
+    <%- include('header-login') %>
+    <h1
+                data-aos="fade-up"
+                class="relative mt-10 text-3xl text-center font-bold text-transparent bg-clip-text bg-blue-950 drop-shadow-lg"
+                >
+                
+                
+                <!-- Parent span with relative positioning and padding -->
+                <span class="relative inline-block px-4 py-2">
+                    
+                    <!-- Background span with white color, rounded corners, and rotation -->
+                    <span class="absolute inset-0 bg-blue-500 rounded-lg transform -rotate-2 z-0 drop-shadow-lg"></span>
+                    
+                    <!-- Text span positioned above the background -->
+                    <span class="relative font-semibold text-3xl text-white z-10">
+                    Étape 2</span>
+                    
+                </span>
+                - Brainstorming
+                
+                <!-- Decorative underline with relief effect -->
+            </h1>
+
+    <!-- Main Container -->
+    <div class="flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
+       
+            <!-- Page Title -->
+
+            <!-- Calendly Widget -->
+            <div class="calendly-inline-widget" data-url="https://calendly.com/scalevision/brainstorming?hide_gdpr_banner=1&primary_color=092f6a&text_color=092f6a" 
+                 style="min-width:1200px;height:800px;display:inline-block;"></div>
+            <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+            <!-- End of Calendly Widget -->
+        
+    </div>
+</body> 
+</body>
+</html>

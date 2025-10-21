@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Le Dénicheur</title>
+    <!-- Include Montserrat Font and Tailwind CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/tailwind.css">
+</head>
+<body class="bg-gradient-to-r from-gray-50 to-blue-50 font-montserrat">
+    <%- include('header-lp') %>
+    <!-- Main Content Container -->
+    <div class="max-w-lg mx-auto px-4 py-12 relative">
+        <a href="/creators" class="absolute top-0 left-2 sm:left-0 bg-blue-950 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-800 transition-colors duration-200 flex items-center">
+            <!-- Optional: Add an SVG Icon for the Back Arrow -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            
+        </a>
+        <!-- Profile Card with Cover Image -->
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden">
+            <!-- Cover Image Section -->
+            <div class="relative">
+                
+                    <img src="/images/denich_case2.png" alt="Cover Image" class="w-full h-48 object-cover">
+               
+                <!-- Profile Image Positioned in the Center -->
+                <div class="absolute inset-x-0 bottom-0 transform translate-y-1/2 flex justify-center">
+                    <div class="w-1/2 h-24">
+                        <img src="/images/deni.png" alt="le-denicheur" class="w-full h-full rounded-full object-cover border-4 bg-white border-white shadow-md"
+                             loading="lazy"
+                             onerror="this.onerror=null; this.src='/images/default-profile.png'">
+                    </div>
+                </div>
+            </div>
+            <!-- Spacer to accommodate the overlapping profile image -->
+            <div class="mt-16 px-6 pb-6">
+                <!-- Creator Name -->
+                
+                <!-- Age and Country -->
+                <div class="flex items-center justify-center space-x-4 mt-2">
+                    <p class="text-gray-600 text-lg flex items-center">
+                        <img src="/images/15.png" alt="Âge" class="w-5 h-5 mr-2">
+                        10 Micro-trottoirs - 2 Créateurs
+                    </p>
+                    
+                </div>
+                <!-- Description -->
+                <p class="mt-6 text-gray-700 text-center leading-relaxed">Poster organiquement sur TikTok puis booster en Spark Ads</p>
+                <!-- Video Types -->
+                <div class="flex flex-wrap justify-center gap-2 mt-6">
+                    
+                        <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">Téléchargement</span>
+                        <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">Lead</span>
+                        <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">IOS</span>
+                        <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">Android</span>
+                    
+                </div>
+                <!-- Ajouter à ma campagne Button -->
+                <div class="flex justify-center mt-6">
+                    <form action="/login" method="POST">
+                      <input type="hidden" name="creatorId" value="ok">
+                      <button type="submit" class="shadow bg-blue-950 hover:bg-blue-800 text-white font-semibold px-6 py-2 rounded-full transition duration-300">
+                        Commencer ma campagne
+                      </button>
+                    </form>
+                </div>
+            </div>
+        
+        <div class="px-6 pb-6">
+            <div id="video-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <!-- Video 1 -->
+                <div class="bg-gray-100 rounded-lg overflow-hidden shadow">
+                    <div class="relative">
+                        <video id="video-0" class="w-full h-auto" controls preload="none">
+                            <source src="https://d2ahkzba9leo8q.cloudfront.net/hugo2.mp4" type="video/mp4">
+                            Votre navigateur ne supporte pas la lecture de vidéos.
+                        </video>
+                        <button 
+                            class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity duration-300"
+                            onclick="toggleVideo('video-0')">
+                            <!-- You can add an icon or text here if desired -->
+                            <span class="sr-only">Play/Pause Video 1</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Video 2 -->
+                <div class="bg-gray-100 rounded-lg overflow-hidden shadow">
+                    <div class="relative">
+                        <video id="video-1" class="w-full h-auto" controls preload="none">
+                            <source src="https://d2ahkzba9leo8q.cloudfront.net/hugo4.mp4" type="video/mp4">
+                            Votre navigateur ne supporte pas la lecture de vidéos.
+                        </video>
+                        <button 
+                            class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity duration-300"
+                            onclick="toggleVideo('video-1')">
+                            <span class="sr-only">Play/Pause Video 2</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Video 3 -->
+                <div class="bg-gray-100 rounded-lg overflow-hidden shadow">
+                    <div class="relative">
+                        <video id="video-2" class="w-full h-auto" controls preload="none">
+                            <source src="https://d2ahkzba9leo8q.cloudfront.net/hugo1.mp4" type="video/mp4">
+                            Votre navigateur ne supporte pas la lecture de vidéos.
+                        </video>
+                        <button 
+                            class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity duration-300"
+                            onclick="toggleVideo('video-2')">
+                            <span class="sr-only">Play/Pause Video 3</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Video 4 -->
+                <div class="bg-gray-100 rounded-lg overflow-hidden shadow">
+                    <div class="relative">
+                        <video id="video-3" class="w-full h-auto" controls preload="none">
+                            <source src="https://d2ahkzba9leo8q.cloudfront.net/hugo2.mp4" type="video/mp4">
+                            Votre navigateur ne supporte pas la lecture de vidéos.
+                        </video>
+                        <button 
+                            class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity duration-300"
+                            onclick="toggleVideo('video-3')">
+                            <span class="sr-only">Play/Pause Video 4</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Video 5 -->
+                <div class="bg-gray-100 rounded-lg overflow-hidden shadow">
+                    <div class="relative">
+                        <video id="video-4" class="w-full h-auto" controls preload="none">
+                            <source src="https://d2ahkzba9leo8q.cloudfront.net/hugo3.mp4" type="video/mp4">
+                            Votre navigateur ne supporte pas la lecture de vidéos.
+                        </video>
+                        <button 
+                            class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity duration-300"
+                            onclick="toggleVideo('video-4')">
+                            <span class="sr-only">Play/Pause Video 5</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Video 6 -->
+                <div class="bg-gray-100 rounded-lg overflow-hidden shadow">
+                    <div class="relative">
+                        <video id="video-5" class="w-full h-auto" controls preload="none">
+                            <source src="https://d2ahkzba9leo8q.cloudfront.net/hugo5.mp4" type="video/mp4">
+                            Votre navigateur ne supporte pas la lecture de vidéos.
+                        </video>
+                        <button 
+                            class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity duration-300"
+                            onclick="toggleVideo('video-5')">
+                            <span class="sr-only">Play/Pause Video 6</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Optional: Remove Show More Button if Not Needed -->
+            <!-- 
+            <div class="flex justify-center mt-6">
+                <button id="show-more-button" class="shadow bg-blue-950 hover:bg-blue-800 text-white font-semibold px-6 py-2 rounded-full transition duration-300">
+                    Afficher Plus
+                </button>
+            </div>
+            -->
+        </div>
+    </div>
+</div>
+</main>
+
+<!-- Footer Section -->
+
+<!-- JavaScript Section -->
+<script>
+    // Function to toggle video play/pause
+    function toggleVideo(videoId) {
+        const video = document.getElementById(videoId);
+        if (video.paused) {
+            video.play();
+        } else {
+            video.pause();
+        }
+    }
+
+    /*
+    // Optional: Show More Functionality
+    // Since we're hardcoding 6 videos, this might not be necessary.
+    // If you plan to add more videos manually in the future, you can implement this.
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const showMoreButton = document.getElementById('show-more-button');
+        if (showMoreButton) {
+            showMoreButton.addEventListener('click', function() {
+                // Manually add more video elements here if needed
+            });
+        }
+    });
+    */
+</script>
+</body>
+</html>
+  

@@ -1,0 +1,97 @@
+<!-- addCreator.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Ajouter un créateur</title>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <%- include('header-login') %>
+
+    <!-- Main Container -->
+    <div class="flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <a href="/account" class="left-2 sm:left-0 mb-4 bg-blue-950 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-800 transition-colors duration-200">
+            <!-- Optional: Add an SVG Icon for the Back Arrow -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            
+        </a>
+        <div class="w-full max-w-lg bg-white shadow-xl rounded-2xl p-8">
+            <!-- Page Title -->
+            <h1 class="text-3xl font-semibold text-blue-950 mb-6 text-center">Ajouter un créateur</h1>
+
+            <form action="/creators/add" method="POST" class="space-y-4">
+            <!-- Name -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Nom</label>
+                    <input type="text" name="name" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out" required>
+                </div>
+
+                <!-- Age -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Âge</label>
+                    <input type="number" name="age" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out" required>
+                </div>
+
+                <!-- Country -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Pays</label>
+                    <input type="text" name="country" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out" required>
+                </div>
+                <!-- Langue -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Langue</label>
+                    <input type="text" name="langue" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out" required>
+                </div>
+                <!-- Genre -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Genre</label>
+                    <input type="text" name="genre" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out" required>
+                </div>
+                <!-- Atout -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Atout</label>
+                    <input type="text" name="atout" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Caméra</label>
+                    <input type="text" name="category" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out" required>
+                </div>
+                <!-- Video Types -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Types de vidéos (séparés par des virgules)</label>
+                    <input type="text" name="videoTypes" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out">
+                </div>
+
+                <!-- Profile Image URL -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">URL de l'image de profil</label>
+                    <input type="text" name="profileImage" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out" required>
+                </div>
+
+                <!-- Portfolio Images URLs -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Image de Fond</label>
+                    <input type="text" name="portfolioImages" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out">
+                </div>
+                <!-- Videos URLs -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Videos</label>
+                    <input type="text" name="videos" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out">
+                </div>
+
+                
+
+                <!-- Submit Button -->
+                <div>
+                    <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-white bg-blue-950 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150 ease-in-out">
+                    Ajouter le créateur
+                    </button>
+                </div>
+            </form>
+        </div>
+    
+</body>
+</html>

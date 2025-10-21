@@ -1,0 +1,119 @@
+<!-- editCreator.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Modifier un créateur</title>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <%- include('header-login') %>
+
+    <!-- Main Container -->
+    <div class="flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <a href="/account" class="left-2 sm:left-0 mb-4 bg-blue-950 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-800 transition-colors duration-200">
+            <!-- Optional: Add an SVG Icon for the Back Arrow -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            
+        </a>
+        <div class="w-full max-w-lg bg-white shadow-xl rounded-2xl p-8">
+            <!-- Page Title -->
+            <h1 class="text-3xl font-semibold text-blue-950 mb-6 text-center">Modifier un créateur</h1>
+
+            <!-- Creator Selection -->
+            <form action="/creators/edit" method="get" class="mb-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Sélectionnez un créateur à modifier</label>
+                    <select name="creatorId" onchange="this.form.submit()" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out">
+                        <option value="">-- Choisissez un créateur --</option>
+                        <% creators.forEach(cr => { %>
+                            <option value="<%= cr._id %>" <%= creator && String(creator._id) === String(cr._id) ? 'selected' : '' %>><%= cr.name %></option>
+                        <% }); %>
+                    </select>
+                </div>
+            </form>
+
+            <% if (creator) { %>
+            <form action="/creators/edit" method="POST" class="space-y-4">
+                <!-- Hidden field for creator ID -->
+                <input type="hidden" name="creatorId" value="<%= creator._id %>">
+
+                <!-- Name -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Nom</label>
+                    <input type="text" name="name" value="<%= creator.name %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm" required>
+                </div>
+
+                <!-- Age -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Âge</label>
+                    <input type="number" name="age" value="<%= creator.age %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm" required>
+                </div>
+
+                <!-- Country -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Pays</label>
+                    <input type="text" name="country" value="<%= creator.country %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm" required>
+                </div>
+
+                <!-- Langue -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Langue</label>
+                    <input type="text" name="langue" value="<%= creator.langue %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm" required>
+                </div>
+
+                <!-- Genre -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Genre</label>
+                    <input type="text" name="genre" value="<%= creator.genre %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm" required>
+                </div>
+
+                <!-- Atout -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Atout</label>
+                    <input type="text" name="atout" value="<%= creator.atout.join(',') %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm">
+                </div>
+
+                <!-- Caméra -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Caméra</label>
+                    <input type="text" name="category" value="<%= creator.category.join(',') %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm" required>
+                </div>
+
+                <!-- Video Types -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Types de vidéos (séparés par des virgules)</label>
+                    <input type="text" name="videoTypes" value="<%= creator.videoTypes.join(',') %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm">
+                </div>
+
+                <!-- Profile Image URL -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">URL de l'image de profil</label>
+                    <input type="text" name="profileImage" value="<%= creator.profileImage %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm" required>
+                </div>
+
+                <!-- Portfolio Images URLs -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Image de Fond</label>
+                    <input type="text" name="portfolioImages" value="<%= creator.portfolioImages.join(',') %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm">
+                </div>
+                <!-- Portfolio Images URLs -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Videos</label>
+                    <input type="text" name="videos" value="<%= creator.videos.join(',') %>" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm">
+                </div>
+
+                <!-- Submit Button -->
+                <div>
+                    <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-white bg-blue-950 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150 ease-in-out">
+                        Mettre à jour le créateur
+                    </button>
+                </div>
+            </form>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>

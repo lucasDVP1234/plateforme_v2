@@ -1,0 +1,86 @@
+<head>
+    <!-- Include Montserrat Font and Tailwind CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/tailwind.css">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+                            
+    <style>
+      body {
+        font-family: 'Montserrat', sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+  <header class="bg-gray-50 sticky top-0 z-50 border-b border-gray-300">
+    <div class="container mx-auto px-8 py-3 flex items-center justify-between">
+      <!-- Logo Section -->
+      <div class="flex items-center transform hover:scale-105 hover:rotate-1">
+        <a href="/">
+          <img src="/images/kreator.png" alt="Company Logo" class="h-10 w-auto">
+        </a>
+        
+      </div>
+      
+      
+      <!-- Desktop Navigation -->
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex space-x-4">
+
+        
+
+        <!-- Créer une campagne -->
+        <a href="mailto:contact@scalevision.fr?subject=Je veux être conseillé sur le choix de mes créateurs UGC"
+            class="flex transform hover:scale-105 hover:rotate-1 items-center px-4 py-2 text-sm font-medium rounded-lg transition duration-200 shadow-sm
+            <% if (currentUrl === '/kreators') { %>
+                bg-white text-blue-950 ring-2 ring-blue-500
+            <% } else { %>
+                text-blue-950 bg-white hover:ring-2 hover:ring-blue-500
+            <% } %>">
+            <img src="/images/15.png" alt="Je veux être conseillé" class="w-6 h-6 mr-1">
+            Je veux être conseillé
+        </a>
+
+        
+
+       
+      </nav>
+
+      
+      </div>
+    </div>
+  
+    <!-- Mobile Menu -->
+    <nav id="mobile-menu" class="md:hidden hidden bg-white shadow-sm">
+      <div class="px-4 pt-4 pb-3 space-y-1">
+        
+        
+  
+       
+      </div>
+    </nav>
+  
+    <!-- Toggle Mobile Menu Script -->
+   
+  </header>
+  
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1741637636344764');
+  fbq('track', 'PageViewKreators');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1741637636344764&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
+
+</body>
+  

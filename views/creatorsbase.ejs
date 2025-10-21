@@ -1,0 +1,250 @@
+<!-- views/creators.ejs -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <!-- Include your head partial or add necessary meta tags -->
+    <title>Choisir ses créateurs - Scalevision</title>
+    <!-- Include Montserrat Font and Tailwind CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/tailwind.css">
+    
+</head>
+<body class="bg-gray-50 font-montserrat">
+    <%- include('header-login') %>
+    <!-- Main Container -->
+    <div class="flex min-h-screen">
+        
+        <!-- Sidebar -->
+        <aside class="sm:w-1/5 p-4 bg-white border-r border-gray-300 sticky top-[4rem] h-screen overflow-y-auto hidden sm:block">
+            <!-- Form starts here -->
+            <form action="/creators" method="GET">
+                <input type="hidden" name="categories" id="selected-categories" />
+                <input type="hidden" name="videoTypes" id="selected-video-types" />
+                <input type="hidden" name="countries" id="selected-countries-input" />
+                <input type="hidden" name="langues" id="selected-langues-input" />
+                <input type="hidden" name="atouts" id="selected-atouts-input" />
+                <input type="hidden" name="genres" id="selected-genres-input" />
+                <input type="hidden" name="ageMin" id="selected-age-min" />
+                <input type="hidden" name="ageMax" id="selected-age-max" />
+        
+                <!-- Header with Rechercher and Filtrer button -->
+                <div class="flex items-center justify-between bg-white rounded shadow p-2 mb-6">
+                    <h2 class="text-lg font-semibold text-blue-950">
+                        Rechercher
+                    </h2>
+                    <button type="submit" class="shadow bg-blue-950 hover:bg-blue-800 text-white font-semibold px-4 py-1 rounded">
+                        Filtrer
+                    </button>
+                </div>
+        
+                <!-- Filter Options -->
+                <div id="filters" class="space-y-6">
+                    <!-- Category Filter -->
+                    <div>
+                        <h3 class="font-semibold mb-2 text-blue-950">Genre</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <% genres.forEach(function(genre) { %>
+                                <button type="button" class="filter-button shadow-md px-3 py-1 bg-white text-blue-950 rounded-full hover:text-white hover:bg-blue-950 text-sm focus:outline-none" data-filter="<%= genre %>" data-filter-type="Genre">
+                                    <%= genre %>
+                                </button>
+                            <% }); %>
+                        </div>
+                    </div>
+                    <!-- Category Filter -->
+                    <div>
+                        <h3 class="font-semibold mb-2 text-blue-950">Caméra</h3>
+                        <div class="flex flex-wrap gap-1">
+                            <% categories.forEach(function(category) { %>
+                                <button type="button" class="filter-button shadow-md px-3 py-1 bg-white text-blue-950 rounded-full hover:text-white hover:bg-blue-950 text-sm focus:outline-none" data-filter="<%= category %>" data-filter-type="Category">
+                                    <%= category %>
+                                </button>
+                            <% }); %>
+                        </div>
+                    </div>
+                    
+                    <!-- Video Type Filter Buttons -->
+                    <div>
+                        <h3 class="font-semibold mb-2 flex text-blue-950">Type de vidéo</h3>
+                        <div class="flex flex-wrap gap-1">
+                            <% videoTypes.forEach(function(type) { %>
+                                <button type="button" class="filter-button shadow-md px-3 py-1 bg-white text-blue-950 rounded-full text-sm hover:text-white hover:bg-blue-950 focus:outline-none" data-filter="<%= type %>" data-filter-type="Type of Videos">
+                                    <%= type %>
+                                </button>
+                            <% }); %>
+                        </div>
+                    </div>
+        
+                    <!-- Age Selector -->
+                    <div>
+                        <h3 class="font-semibold mb-2 text-blue-950">Age</h3>
+                        <!-- Age Inputs -->
+                        <div class="flex items-center space-x-2">
+                            <input type="number" name="ageMin2" id="age-min" class="w-20 px-2 py-1 border rounded" placeholder="Min" min="0" max="100" value="0" />
+                            <span>-</span>
+                            <input type="number" name="ageMax2" id="age-max" class="w-20 px-2 py-1 border rounded" placeholder="Max" min="0" max="99" value="99" />
+                        </div>
+                    </div>
+        
+                    <!-- Country Filter -->
+                    <div>
+                        <h3 class="font-semibold text-blue-950 mb-2">Pays</h3>
+                        <div class="flex flex-wrap gap-1">
+                            <% countries.forEach(function(country) { %>
+                                <button type="button" class="filter-button shadow-md px-3 py-1 bg-white text-blue-950 rounded-full hover:text-white hover:bg-blue-950 text-sm focus:outline-none" data-filter="<%= country %>" data-filter-type="Country">
+                                    <%= country %>
+                                </button>
+                            <% }); %>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-blue-950 mb-2">Langue</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <% langues.forEach(function(langue) { %>
+                                <button type="button" class="filter-button shadow-md px-3 py-1 bg-white text-blue-950 rounded-full hover:text-white hover:bg-blue-950 text-sm focus:outline-none" data-filter="<%= langue %>" data-filter-type="Langue">
+                                    <%= langue %>
+                                </button>
+                            <% }); %>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-blue-950 mb-2">Spécial</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <% atouts.forEach(function(atout) { %>
+                                <button type="button" class="filter-button shadow-md px-3 py-1 bg-white text-blue-950 rounded-full hover:text-white hover:bg-blue-950 text-sm focus:outline-none" data-filter="<%= atout %>" data-filter-type="Atout">
+                                    <%= atout %>
+                                </button>
+                            <% }); %>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold mt-4 text-blue-950 mb-2">Une besoin particulier ?</h3>
+                        <div class="flex flex-wrap gap-2">
+                                <a href="#" class="shadow-md px-3 py-1 bg-white text-blue-950 rounded hover:text-white hover:bg-blue-950 text-sm focus:outline-none" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/scalevision/planifier-une-demonstration?hide_event_type_details=0&hide_gdpr_banner=1&text_color=092f6a&primary_color=092f6a'});return false;">
+                                    Demander une recherche sur-mesure
+                                </a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!-- Form ends here -->
+        </aside>
+        <!-- Main Content -->
+        <main class="sm:w-4/5 w-full">
+            <div class="sticky top-[4rem] z-20 bg-white p-3 border-b border-gray-300">
+                <div id="selected-filters-container" class="flex flex-wrap space-x-2">
+                    <!-- Selected filters will be displayed here as bubbles -->
+                </div>
+                
+                <h1 class="relative text-l text-blue-950 font-semibold">
+                  <span class="relative inline-block px-4 py-1 mr-2">
+                    
+                    <!-- Background span with white color, rounded corners, and rotation -->
+                    <span class="absolute inset-0 bg-blue-500 rounded-lg transform -rotate-2 z-0 drop-shadow-lg"></span>
+                    
+                    <!-- Text span positioned above the background -->
+                    <span class="relative font-semibold text-l text-white z-10">
+                    Étape 1</span>
+                    
+                </span>
+                
+                  Séléctionner les créateurs pour votre campagne<img src="/images/bas2.png" alt="Account Icon" class="inline-block w-8" style="vertical-align: middle">
+                
+                </h1>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 p-3 overflow-y-auto">
+                <% creators.forEach(function(creator) { %>
+                  <div class="creator-card transform hover:scale-103 hover:rotate-1 bg-white hover:bg-gray-50 rounded-lg shadow-md overflow-hidden relative" data-creator-id="<%= creator._id %>">
+                    <!-- Creator Image -->
+                    <a href="/creators/<%= creator._id %>"> 
+                        <img src="<%= creator.portfolioImages %>" alt="<%= creator.name %>" class="w-full h-48 object-cover">
+                    </a>
+              
+                    <!-- Portfolio Bubbles -->
+                    <div class="flex justify-center -mt-8">
+                      
+                        <div class="bg-white p-1 rounded-full mx-1 shadow-lg">
+                          <img
+                            src="<%= creator.profileImage %>"
+                            alt="Portfolio Image"
+                            class="h-16 w-16 rounded-full object-cover portfolio-image"
+                            data-image-url="<%= creator.profileImage %>"
+                            tabindex="0"
+                            loading="lazy"
+                          >
+                        </div>
+                      
+                    </div>
+              
+                    <!-- Creator Info -->
+                    <div class="p-2 -mt-8">
+                      <!-- Creator Name and Add to Basket Button -->
+                      <div class="flex items-center justify-between mb-2">
+                        <!-- Creator Name -->
+                        <h3 class="text-lg font-semibold text-blue-950"><%= creator.name %></h3>
+                    
+                        <!-- Add to Basket Button -->
+                        <form action="/add-to-campaign" method="POST">
+                          <input type="hidden" name="creatorId" value="<%= creator._id %>">
+                          <button type="submit" class="flex items-center text-sm px-2 py-1 font-medium transition duration-200 text-blue-950 focus:outline-none">
+                            <img src="/images/panier.png" alt="Ajouter au panier" class="w-6 h-6">
+                          </button>
+                        </form>
+                      </div>
+                    
+                      <!-- Creator Age -->
+                      <p class="flex flex-wrap items-center mb-2 text-gray-600 text-sm"><img src="/images/11.png" alt="Âge" class="w-5 h-5 mr-2"><%= creator.age %> ans</p>
+              
+                      <!-- Creator Country -->
+                      <div class="flex flex-wrap items-center gap-2 mb-2"><img src="/images/mondeblue.png" alt="Âge" class="w-5 h-5 mt-1">
+                        <span class="px-2 py-1 bg-blue-100 text-blue-500 text-xs rounded-full"><%= creator.country %></span>
+                      </div>
+              
+                      <!-- Video Types and Add to Basket Button -->
+                      <div class="flex items-center justify-between mb-2">
+                        <div class="flex flex-wrap gap-2"><img src="/images/camvert.png" alt="Âge" class="w-5 h-5 mt-1">
+                          <% creator.videoTypes.forEach(function(type) { %>
+                            <span class="px-2 py-1 bg-green-100 text-green-500 text-xs rounded-full"><%= type %></span>
+                          <% }); %>
+                        </div>
+                      
+                        <!-- "Voir" Button -->
+                        <div class="flex">
+                          <a href="/creators/<%= creator._id %>" class="flex-inline bg-white shadow-md hover:bg-blue-950 text-blue-950 hover:text-white font-bold py-1 px-4 rounded">
+                            Voir
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                   
+                  </div>
+                
+                <% }); %>
+              </div>
+               
+        </main>
+    </div>
+
+    <script src="js/filters.js"></script>
+    <!-- Meta Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1741637636344764');
+        
+        fbq('track', 'PagKreatorsConversion');
+        </script>
+        <noscript><img height="1" width="1" style="display:none"
+        src="https://www.facebook.com/tr?id=1741637636344764&ev=PageView&noscript=1"
+    /></noscript>
+        <!-- End Meta Pixel Code -->
+    
+</body>
+</html>
