@@ -8,12 +8,21 @@ const creatorSchema = new mongoose.Schema({
     category: [String],
     videoTypes: [String],
     profileImage: String,
+    coverImage: String,
     portfolioImages: [String],
     description: String,
     country : String,
     langue : [String],
     atout :[String],
     videos :[String],
+    isActive: {
+        type: Boolean,
+        default: true,
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    },
 });
 
 module.exports = mongoose.model('Creator', creatorSchema);

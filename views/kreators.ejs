@@ -1,4 +1,4 @@
-<!-- views/creators.ejs -->
+<!-- views/kreators.ejs -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -17,7 +17,7 @@
         <!-- Sidebar -->
         <aside class="sm:w-1/5 p-4 bg-white border-r border-gray-300 sticky top-[4rem] h-screen overflow-y-auto hidden sm:block">
             <!-- Form starts here -->
-            <form action="/creators" method="GET">
+            <form action="/kreators" method="GET">
                 <input type="hidden" name="categories" id="selected-categories" />
                 <input type="hidden" name="videoTypes" id="selected-video-types" />
                 <input type="hidden" name="countries" id="selected-countries-input" />
@@ -154,11 +154,13 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 p-3 overflow-y-auto">
-                <% creators.forEach(function(kreator) { %>
+                <% kreators.forEach(function(kreator) { %>
+                  <% const videoTypes = Array.isArray(kreator.videoTypes) ? kreator.videoTypes : (kreator.videoTypes ? [kreator.videoTypes] : []); %>
                   <div class="creator-card transform hover:scale-103 hover:rotate-1 bg-white hover:bg-gray-50 rounded-lg shadow-md overflow-hidden relative" data-creator-id="<%= kreator._id %>">
                     <!-- Creator Image -->
-                    <a href="/creators/<%= kreator._id %>"> 
-                        <img src="<%= kreator.portfolioImages %>" alt="<%= kreator.name %>" class="w-full h-48 object-cover">
+                    <a href="/kreators/<%= kreator._id %>">
+                        <% const coverImage = kreator.coverImage || (Array.isArray(kreator.portfolioImages) ? kreator.portfolioImages[0] : kreator.portfolioImages); %>
+                        <img src="<%= coverImage || '/images/default-cover.jpg' %>" alt="<%= kreator.name %>" class="w-full h-48 object-cover">
                     </a>
               
                     <!-- Portfolio Bubbles -->
@@ -166,7 +168,7 @@
                       
                         <div class="bg-white p-1 rounded-full mx-1 shadow-lg">
                           <img
-                            src="<%= kreator.profileImage %>"
+                            src="<%= kreator.profileImage || '/images/default-profile.png' %>"
                             alt="Portfolio Image"
                             class="h-16 w-16 rounded-full object-cover portfolio-image"
                             data-image-url="<%= kreator.profileImage %>"
@@ -198,7 +200,7 @@
                       <!-- Video Types and Add to Basket Button -->
                       <div class="flex items-center justify-between mb-2">
                         <div class="flex flex-wrap gap-2"><img src="/images/camvert.png" alt="Âge" class="w-5 h-5 mt-1">
-                          <% kreator.videoTypes.forEach(function(type) { %>
+                          <% videoTypes.forEach(function(type) { %>
                             <span class="px-2 py-1 bg-green-100 text-green-500 text-xs rounded-full"><%= type %></span>
                           <% }); %>
                         </div>
@@ -220,7 +222,7 @@
         </main>
     </div>
 
-    <script src="js/filters.js"></script>
+    <script src="/js/filters.js"></script>
     <!-- Meta Pixel Code -->
     <script>
         !function(f,b,e,v,n,t,s)

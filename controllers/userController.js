@@ -86,7 +86,7 @@ exports.postSignup = async (req, res) => {
         req.flash('error', 'Une erreur est survenue lors de la connexion.');
         return res.redirect('/');
       }
-      return res.redirect('/creators');
+      return res.redirect('/kreators');
     });
   } catch (err) {
     console.error('Erreur lors de l\'inscription :', err);
@@ -131,7 +131,7 @@ exports.getAccount = async (req, res) => {
       const user = await User.findById(req.user._id);
       if (!user.name || !user.job) {
       // Redirect to the campaign details form if user info is incomplete
-        return res.redirect('/creators');
+        return res.redirect('/kreators');
       }
       // Find all campaigns for the logged-in user and populate the creator names
       const campaigns = await Campaign.find({ userId: req.user._id })

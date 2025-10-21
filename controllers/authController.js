@@ -6,6 +6,9 @@ const User = require('../models/User');
 // Render Login Page
 exports.getLogin = (req, res) => {
   if (req.isAuthenticated()) {
+    if (req.user.role === 'creator') {
+      return res.redirect('/kreators/me/edit');
+    }
     return res.redirect('/account');
   }
   res.render('login');
@@ -31,7 +34,8 @@ exports.postLogin = (req, res, next) => {
         return next(err);
       }
       req.flash('success', 'Connexion réussie !');
-      return res.redirect('/account');
+      const redirectUrl = req.user && req.user.role === 'creator' ? '/kreators/me/edit' : '/account';
+      return res.redirect(redirectUrl);
     });
   })(req, res, next);
 };
@@ -49,5 +53,5 @@ exports.logout = (req, res, next) => {
 
 // Google OAuth Callback
 exports.googleCallback = (req, res) => {
-  res.redirect('/creators');
+  res.redirect('/kreators');
 };

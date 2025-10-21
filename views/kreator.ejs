@@ -22,8 +22,9 @@
         <div class="bg-white rounded-2xl shadow-md overflow-hidden">
             <!-- Cover Image Section -->
             <div class="relative">
-                <% if (creator.portfolioImages && creator.portfolioImages.length > 0) { %>
-                    <img src="<%= creator.portfolioImages[0] %>" alt="Cover Image" class="w-full h-48 object-cover">
+                <% const coverImage = creator.coverImage || (creator.portfolioImages && creator.portfolioImages.length > 0 ? creator.portfolioImages[0] : null); %>
+                <% if (coverImage) { %>
+                    <img src="<%= coverImage %>" alt="Cover Image" class="w-full h-48 object-cover">
                 <% } else { %>
                     <!-- Default Cover Image if none provided -->
                     <img src="/images/default-cover.jpg" alt="Default Cover Image" class="w-full h-48 object-cover">
@@ -31,7 +32,7 @@
                 <!-- Profile Image Positioned in the Center -->
                 <div class="absolute inset-x-0 bottom-0 transform translate-y-1/2 flex justify-center">
                     <div class="w-32 h-32">
-                        <img src="<%= creator.profileImage %>" alt="<%= creator.name %>" class="w-full h-full rounded-full object-cover border-4 border-white shadow-md"
+                        <img src="<%= creator.profileImage || '/images/default-profile.png' %>" alt="<%= creator.name %>" class="w-full h-full rounded-full object-cover border-4 border-white shadow-md"
                              loading="lazy"
                              onerror="this.onerror=null; this.src='/images/default-profile.png'">
                     </div>
