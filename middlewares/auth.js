@@ -9,6 +9,9 @@ function ensureAuthenticated(req, res, next) {
 
 function ensureProfileComplete(req, res, next) {
   const user = req.user;
+  if (user && user.role === 'creator') {
+    return res.redirect('/creators/me/edit');
+  }
   if (user && user.name && user.job) {
     return next();
   } else {
@@ -22,4 +25,16 @@ function isAdmin(req, res, next) {
   res.status(403).send('Access denied.');
 };
 
-module.exports = { ensureAuthenticated, ensureProfileComplete,isAdmin };
+function ensureCreator(req, res, next) {
+  if (!req.isAuthenticated()) {
+    return res.redirect('/login');
+  }
+
+  if (req.user.role === 'creator') {
+    return next();
+  }
+
+  res.status(403).send('Access denied.');
+}
+
+module.exports = { ensureAuthenticated, ensureProfileComplete, isAdmin, ensureCreator };

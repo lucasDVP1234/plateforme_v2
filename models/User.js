@@ -14,19 +14,23 @@ const userSchema = new mongoose.Schema({
     },
     phone: {
         type: String,
-        required: true, // If phone is mandatory
-      },
-    
+        required: function () {
+            return this.role === 'user';
+        },
+    },
+
     companyName: {
         type: String,
-        required: true,
+        required: function () {
+            return this.role === 'user';
+        },
     },
     googleId: String,
     password: String,
     resetPasswordToken: { type: String },
     resetPasswordExpires: { type: Date },
     job:String,
-    role: { type: String, enum: ['user', 'admin'], default: 'user' },
+    role: { type: String, enum: ['user', 'admin', 'creator'], default: 'user' },
     
 });
 
