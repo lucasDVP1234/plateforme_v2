@@ -8,6 +8,7 @@ const creatorSchema = new mongoose.Schema({
     category: [String],
     videoTypes: [String],
     profileImage: String,
+    coverImage: String,
     portfolioImages: [String],
     description: String,
     country : String,

@@ -53,5 +53,5 @@ exports.logout = (req, res, next) => {
 
 // Google OAuth Callback
 exports.googleCallback = (req, res) => {
-  res.redirect('/creators');
+  res.redirect('/kreators');
 };

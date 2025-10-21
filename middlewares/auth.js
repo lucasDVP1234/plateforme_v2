@@ -15,7 +15,7 @@ function ensureProfileComplete(req, res, next) {
   if (user && user.name && user.job) {
     return next();
   } else {
-    res.redirect('/creators');
+    res.redirect('/kreators');
   }
 }
 function isAdmin(req, res, next) {

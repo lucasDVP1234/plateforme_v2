@@ -21,7 +21,7 @@ exports.addToCampaign = async (req, res) => {
       res.redirect('/login');
     }
     else {
-      res.redirect('/creators');
+      res.redirect('/kreators');
     }
 
      // Redirect back to the same page
@@ -64,7 +64,7 @@ exports.createCampaign = async (req, res) => {
     if (!creatorIds || creatorIds.length === 0) {
       // Optional: Flash message to inform the user
       //req.flash('error', 'Your basket is empty. Please add creators to your campaign.');
-      return res.redirect('/creators');
+      return res.redirect('/kreators');
     }
 
     // If name and job are required for campaign creation, ensure they are present

@@ -22,7 +22,7 @@
             <!-- Page Title -->
             <h1 class="text-3xl font-semibold text-blue-950 mb-6 text-center">Ajouter un créateur</h1>
 
-            <form action="/creators/add" method="POST" class="space-y-4">
+            <form action="/kreators/add" method="POST" class="space-y-4">
             <!-- Name -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Nom</label>
@@ -71,15 +71,28 @@
                     <input type="text" name="profileImage" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out" required>
                 </div>
 
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">URL de l'image de couverture</label>
+                    <input type="text" name="coverImage" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out">
+                </div>
+
                 <!-- Portfolio Images URLs -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Image de Fond</label>
+                    <label class="block text-sm font-medium text-gray-700">Images supplémentaires (séparées par des virgules)</label>
                     <input type="text" name="portfolioImages" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out">
                 </div>
                 <!-- Videos URLs -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Videos</label>
                     <input type="text" name="videos" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Carte visible</label>
+                    <select name="isActive" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out">
+                        <option value="true" selected>Active</option>
+                        <option value="false">Masquée</option>
+                    </select>
                 </div>
 
                 

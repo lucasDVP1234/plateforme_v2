@@ -4,7 +4,7 @@ const router = express.Router();
 
 const authRoutes = require('./auth');
 const userRoutes = require('./users');
-const creatorRoutes = require('./creators');
+const kreatorRoutes = require('./kreators');
 const campaignRoutes = require('./campaigns');
 
 
@@ -41,7 +41,13 @@ router.get('/case_study3', (req, res) => {
 // Use other routers
 router.use('/', authRoutes);
 router.use('/', userRoutes);
-router.use('/', creatorRoutes);
+router.use('/kreators', kreatorRoutes);
+
+router.get('/creators', (req, res) => res.redirect(301, '/kreators'));
+router.get('/creators/*', (req, res) => {
+  const suffix = req.path.replace('/creators', '');
+  return res.redirect(301, `/kreators${suffix}`);
+});
 router.use('/', campaignRoutes);
 
 module.exports = router;

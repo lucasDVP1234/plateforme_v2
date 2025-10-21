@@ -17,7 +17,7 @@
         <!-- Sidebar -->
         <aside class="sm:w-1/5 p-4 bg-white border-r border-gray-300 sticky top-[4rem] h-screen overflow-y-auto hidden sm:block">
             <!-- Form starts here -->
-            <form action="/creators" method="GET">
+            <form action="/kreators" method="GET">
                 <input type="hidden" name="categories" id="selected-categories" />
                 <input type="hidden" name="videoTypes" id="selected-video-types" />
                 <input type="hidden" name="countries" id="selected-countries-input" />
@@ -155,21 +155,24 @@
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 p-3 overflow-y-auto">
                 <% creators.forEach(function(creator) { %>
+                  <% const coverImage = creator.coverImage || (Array.isArray(creator.portfolioImages) ? creator.portfolioImages[0] : creator.portfolioImages); %>
+                  <% const profileImage = creator.profileImage || '/images/default-profile.png'; %>
+                  <% const videoTypesList = Array.isArray(creator.videoTypes) ? creator.videoTypes : (creator.videoTypes ? [creator.videoTypes] : []); %>
                   <div class="creator-card transform hover:scale-103 hover:rotate-1 bg-white hover:bg-gray-50 rounded-lg shadow-md overflow-hidden relative" data-creator-id="<%= creator._id %>">
                     <!-- Creator Image -->
-                    <a href="/creators/<%= creator._id %>"> 
-                        <img src="<%= creator.portfolioImages %>" alt="<%= creator.name %>" class="w-full h-48 object-cover">
+                    <a href="/kreators/<%= creator._id %>">
+                        <img src="<%= coverImage || '/images/default-cover.jpg' %>" alt="<%= creator.name %>" class="w-full h-48 object-cover">
                     </a>
-              
+
                     <!-- Portfolio Bubbles -->
                     <div class="flex justify-center -mt-8">
-                      
+
                         <div class="bg-white p-1 rounded-full mx-1 shadow-lg">
                           <img
-                            src="<%= creator.profileImage %>"
+                            src="<%= profileImage %>"
                             alt="Portfolio Image"
                             class="h-16 w-16 rounded-full object-cover portfolio-image"
-                            data-image-url="<%= creator.profileImage %>"
+                            data-image-url="<%= profileImage %>"
                             tabindex="0"
                             loading="lazy"
                           >
@@ -204,14 +207,14 @@
                       <!-- Video Types and Add to Basket Button -->
                       <div class="flex items-center justify-between mb-2">
                         <div class="flex flex-wrap gap-2"><img src="/images/camvert.png" alt="Âge" class="w-5 h-5 mt-1">
-                          <% creator.videoTypes.forEach(function(type) { %>
+                          <% videoTypesList.forEach(function(type) { %>
                             <span class="px-2 py-1 bg-green-100 text-green-500 text-xs rounded-full"><%= type %></span>
                           <% }); %>
                         </div>
                       
                         <!-- "Voir" Button -->
                         <div class="flex">
-                          <a href="/creators/<%= creator._id %>" class="flex-inline bg-white shadow-md hover:bg-blue-950 text-blue-950 hover:text-white font-bold py-1 px-4 rounded">
+                          <a href="/kreators/<%= creator._id %>" class="flex-inline bg-white shadow-md hover:bg-blue-950 text-blue-950 hover:text-white font-bold py-1 px-4 rounded">
                             Voir
                           </a>
                         </div>

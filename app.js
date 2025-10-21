@@ -5,11 +5,9 @@ const session = require('express-session');
 const MongoStore = require("connect-mongo");
 const passport = require('passport');
 const path = require('path');
-const routes = require('./routes');
 const indexRoutes = require('./routes/index');
 const Creator = require('./models/Creator');
-const creatorsRoutes = require('./routes/creators');
-const flash = require('connect-flash'); 
+const flash = require('connect-flash');
 
 //const connection = mongoose.createConnection(process.env.MONGODB_URI) 
 if (process.env.NODE_ENV !== 'production') {
@@ -98,7 +96,6 @@ app.use(async (req, res, next) => {
 });
 
 // Routes
-app.use('/creators', creatorsRoutes); 
 app.use('/', indexRoutes);
 
 // app.js
